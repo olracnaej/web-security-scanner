@@ -1,0 +1,18 @@
+[project]
+name = "web-security-scanner"
+version = "0.1.0"
+description = "Beginner-friendly web hygiene scanner: headers, TLS, cookies, exposed files, WordPress."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+webscan = "scanner.cli:main"
+
+[tool.setuptools]
+packages = ["scanner"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
