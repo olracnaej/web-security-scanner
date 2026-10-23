@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "tool": {
+    "name": "web-security-scanner",
+    "version": "1.0.0"
+  },
+  "scanned_at": "2026-10-23T06:36:51Z",
+  "target": {
+    "url": "http://127.0.0.1:8101",
+    "http_status": 200,
+    "requests_made": 33,
+    "redirects_followed": 0,
+    "tls_verified": null
+  },
+  "score": {
+    "value": 53,
+    "max": 100,
+    "grade": "F",
+    "breakdown": {
+      "high": {
+        "types": 0,
+        "points": 0
+      },
+      "medium": {
+        "types": 4,
+        "points": 32
+      },
+      "low": {
+        "types": 5,
+        "points": 15
+      },
+      "info": {
+        "types": 1,
+        "points": 0
+      }
+    }
+  },
+  "counts": {
+    "high": 0,
+    "medium": 5,
+    "low": 7,
+    "info": 1
+  },
+  "findings": [
+    {
+      "check_id": "cookies.no-httponly",
+      "title": "Cookie 'PHPSESSID' missing HttpOnly flag",
+      "severity": "medium",
+      "description": "JavaScript on the page can read this cookie, so an XSS bug can steal it.",
+      "recommendation": "Add the HttpOnly attribute to the Set-Cookie header.",
+      "evidence": "cookie 'PHPSESSID': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "cookies.no-httponly",
+      "title": "Cookie 'auth_token' missing HttpOnly flag",
+      "severity": "medium",
+      "description": "JavaScript on the page can read this cookie, so an XSS bug can steal it.",
+      "recommendation": "Add the HttpOnly attribute to the Set-Cookie header.",
+      "evidence": "cookie 'auth_token': Secure=no, HttpOnly=no, SameSite=None"
+    },
+    {
+      "check_id": "cookies.samesite-none-insecure",
+      "title": "Cookie 'auth_token' uses SameSite=None without Secure",
+      "severity": "medium",
+      "description": "Browsers reject SameSite=None cookies that are not Secure, and it widens cross-site exposure.",
+      "recommendation": "Add Secure, or use SameSite=Lax.",
+      "evidence": "cookie 'auth_token': Secure=no, HttpOnly=no, SameSite=None"
+    },
+    {
+      "check_id": "headers.clickjacking",
+      "title": "Page can be framed (clickjacking)",
+      "severity": "medium",
+      "description": "Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.",
+      "recommendation": "Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors 'self'.",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.csp-missing",
+      "title": "Missing Content-Security-Policy",
+      "severity": "medium",
+      "description": "Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.",
+      "recommendation": "Start with: Content-Security-Policy: default-src 'self'; frame-ancestors 'self'",
+      "evidence": ""
+    },
+    {
+      "check_id": "cookies.no-httponly",
+      "title": "Cookie 'theme' missing HttpOnly flag",
+      "severity": "low",
+      "description": "JavaScript on the page can read this cookie, so an XSS bug can steal it.",
+      "recommendation": "Add the HttpOnly attribute to the Set-Cookie header.",
+      "evidence": "cookie 'theme': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "cookies.no-samesite",
+      "title": "Cookie 'PHPSESSID' missing SameSite",
+      "severity": "low",
+      "description": "Without SameSite, other sites may trigger requests that carry this cookie (CSRF).",
+      "recommendation": "Add SameSite=Lax (or Strict).",
+      "evidence": "cookie 'PHPSESSID': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "cookies.no-samesite",
+      "title": "Cookie 'theme' missing SameSite",
+      "severity": "low",
+      "description": "Without SameSite, other sites may trigger requests that carry this cookie (CSRF).",
+      "recommendation": "Add SameSite=Lax (or Strict).",
+      "evidence": "cookie 'theme': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "headers.nosniff",
+      "title": "Missing X-Content-Type-Options: nosniff",
+      "severity": "low",
+      "description": "Browsers may guess file types and run an upload as a script.",
+      "recommendation": "Add: X-Content-Type-Options: nosniff",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.referrer-policy",
+      "title": "Missing Referrer-Policy",
+      "severity": "low",
+      "description": "Full page URLs (which can contain tokens or IDs) may be sent to other sites.",
+      "recommendation": "Add: Referrer-Policy: strict-origin-when-cross-origin",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.server-version",
+      "title": "Server header reveals a software version",
+      "severity": "low",
+      "description": "Attackers can look up known vulnerabilities for the exact version.",
+      "recommendation": "Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).",
+      "evidence": "Server: Apache/2.4.41 (Ubuntu)"
+    },
+    {
+      "check_id": "headers.x-powered-by",
+      "title": "x-powered-by header reveals the technology stack",
+      "severity": "low",
+      "description": "This tells attackers which framework and version to target.",
+      "recommendation": "Remove the x-powered-by header (PHP: expose_php = Off).",
+      "evidence": "x-powered-by: PHP/7.4.3"
+    },
+    {
+      "check_id": "headers.permissions-policy",
+      "title": "Missing Permissions-Policy",
+      "severity": "info",
+      "description": "Browser features like camera, microphone and geolocation are not explicitly limited.",
+      "recommendation": "Add: Permissions-Policy: camera=(), microphone=(), geolocation=()",
+      "evidence": ""
+    }
+  ]
+}

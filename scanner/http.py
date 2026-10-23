@@ -13,9 +13,10 @@ import ssl
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 
+from scanner import __version__
 from scanner.safety import AuthorizedTarget, authorize_redirect
 
-USER_AGENT = "web-security-scanner/0.1 (permission-based hygiene scan)"
+USER_AGENT = f"web-security-scanner/{__version__} (permission-based hygiene scan)"
 MAX_BODY = 1_000_000
 MAX_REDIRECTS = 5
 TIMEOUT = 10.0

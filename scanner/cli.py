@@ -10,12 +10,14 @@ from scanner import __version__
 from scanner.engine import ScanResult, run_scan
 from scanner.http import FetchError
 from scanner.models import Severity
+from scanner.report import build_report, to_html, to_json, write_text
 from scanner.safety import RefusedTarget
 
 EXIT_OK = 0
 EXIT_FINDINGS = 1  # only with --fail-on
 EXIT_REFUSED = 2
 EXIT_FETCH_ERROR = 3
+EXIT_WRITE_ERROR = 4
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -38,6 +40,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--delay", type=float, metavar="SECONDS",
         help="pause between extra requests (default 0.1) to be gentle with small sites",
     )
+    scan.add_argument("--json", dest="json_path", metavar="FILE", help="write a JSON report")
+    scan.add_argument("--html", dest="html_path", metavar="FILE", help="write an HTML report")
+    scan.add_argument(
+        "--fail-under", type=int, metavar="SCORE",
+        help="exit with code 1 if the score is below SCORE (for CI)",
+    )
     scan.add_argument(
         "--fail-on", choices=["low", "medium", "high"],
         help="exit with code 1 if any finding is at least this severe (for CI)",
@@ -58,6 +66,7 @@ def print_result(result: ScanResult) -> None:
         f"{counts[s]} {s.label}" for s in sorted(Severity, reverse=True) if counts[s]
     )
     print(f"Requests sent: {result.requests_made}")
+    print(f"Score: {result.score.value}/100 (grade {result.score.grade})")
     print(f"Findings: {summary or 'none'}\n")
 
     for f in result.findings:
@@ -83,11 +92,23 @@ def main(argv: list[str] | None = None) -> int:
 
     print_result(result)
 
+    report = build_report(result)
+    try:
+        if args.json_path:
+            print(f"Wrote {write_text(args.json_path, to_json(report))}")
+        if args.html_path:
+            print(f"Wrote {write_text(args.html_path, to_html(report))}")
+    except OSError as exc:
+        print(f"Error: could not write the report: {exc}", file=sys.stderr)
+        return EXIT_WRITE_ERROR
+
+    failed = False
     if args.fail_on:
         threshold = Severity[args.fail_on.upper()]
-        if any(f.severity >= threshold for f in result.findings):
-            return EXIT_FINDINGS
-    return EXIT_OK
+        failed = any(f.severity >= threshold for f in result.findings)
+    if args.fail_under is not None and result.score.value < args.fail_under:
+        failed = True
+    return EXIT_FINDINGS if failed else EXIT_OK
 
 
 if __name__ == "__main__":

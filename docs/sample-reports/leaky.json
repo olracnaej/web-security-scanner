@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "tool": {
+    "name": "web-security-scanner",
+    "version": "1.0.0"
+  },
+  "scanned_at": "2026-10-23T06:36:54Z",
+  "target": {
+    "url": "http://127.0.0.1:8102",
+    "http_status": 200,
+    "requests_made": 25,
+    "redirects_followed": 0,
+    "tls_verified": null
+  },
+  "score": {
+    "value": 0,
+    "max": 100,
+    "grade": "F",
+    "breakdown": {
+      "high": {
+        "types": 4,
+        "points": 80
+      },
+      "medium": {
+        "types": 4,
+        "points": 32
+      },
+      "low": {
+        "types": 3,
+        "points": 9
+      },
+      "info": {
+        "types": 1,
+        "points": 0
+      }
+    }
+  },
+  "counts": {
+    "high": 4,
+    "medium": 4,
+    "low": 3,
+    "info": 1
+  },
+  "findings": [
+    {
+      "check_id": "exposed.backup-zip",
+      "title": "Backup archive is publicly accessible",
+      "severity": "high",
+      "description": "Anyone can download the whole site, including configuration and data.",
+      "recommendation": "Remove it from the web root and keep backups elsewhere.",
+      "evidence": "GET /backup.zip returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "exposed.env",
+      "title": ".env file is publicly accessible",
+      "severity": "high",
+      "description": "It usually holds database passwords and API keys.",
+      "recommendation": "Remove the file from the web root and block dot-files and backups in the server config. Then rotate every secret that was in it.",
+      "evidence": "GET /.env returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "exposed.git",
+      "title": ".git folder is publicly accessible",
+      "severity": "high",
+      "description": "Anyone can download the site's source code and history, often including passwords.",
+      "recommendation": "Block access to /.git (nginx: location ~ /\\.git { deny all; }) or do not deploy it.",
+      "evidence": "GET /.git/HEAD returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "exposed.sql-dump",
+      "title": "Database dump is publicly accessible",
+      "severity": "high",
+      "description": "It contains the site's data, possibly including user accounts.",
+      "recommendation": "Remove it from the web root and keep backups elsewhere.",
+      "evidence": "GET /backup.sql returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "exposed.directory-listing",
+      "title": "Directory listing is enabled",
+      "severity": "medium",
+      "description": "Visitors can browse the folder and download files that were never linked.",
+      "recommendation": "Disable it (Apache: Options -Indexes, nginx: autoindex off).",
+      "evidence": "http://127.0.0.1:8102"
+    },
+    {
+      "check_id": "exposed.phpinfo",
+      "title": "phpinfo() page is publicly accessible",
+      "severity": "medium",
+      "description": "It shows the PHP version, modules, paths and server settings to attackers.",
+      "recommendation": "Delete the file.",
+      "evidence": "GET /phpinfo.php returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "headers.clickjacking",
+      "title": "Page can be framed (clickjacking)",
+      "severity": "medium",
+      "description": "Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.",
+      "recommendation": "Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors 'self'.",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.csp-missing",
+      "title": "Missing Content-Security-Policy",
+      "severity": "medium",
+      "description": "Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.",
+      "recommendation": "Start with: Content-Security-Policy: default-src 'self'; frame-ancestors 'self'",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.nosniff",
+      "title": "Missing X-Content-Type-Options: nosniff",
+      "severity": "low",
+      "description": "Browsers may guess file types and run an upload as a script.",
+      "recommendation": "Add: X-Content-Type-Options: nosniff",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.referrer-policy",
+      "title": "Missing Referrer-Policy",
+      "severity": "low",
+      "description": "Full page URLs (which can contain tokens or IDs) may be sent to other sites.",
+      "recommendation": "Add: Referrer-Policy: strict-origin-when-cross-origin",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.server-version",
+      "title": "Server header reveals a software version",
+      "severity": "low",
+      "description": "Attackers can look up known vulnerabilities for the exact version.",
+      "recommendation": "Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).",
+      "evidence": "Server: nginx/1.14.0"
+    },
+    {
+      "check_id": "headers.permissions-policy",
+      "title": "Missing Permissions-Policy",
+      "severity": "info",
+      "description": "Browser features like camera, microphone and geolocation are not explicitly limited.",
+      "recommendation": "Add: Permissions-Policy: camera=(), microphone=(), geolocation=()",
+      "evidence": ""
+    }
+  ]
+}

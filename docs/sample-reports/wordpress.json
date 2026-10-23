@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "tool": {
+    "name": "web-security-scanner",
+    "version": "1.0.0"
+  },
+  "scanned_at": "2026-10-23T06:36:58Z",
+  "target": {
+    "url": "http://127.0.0.1:8103",
+    "http_status": 200,
+    "requests_made": 46,
+    "redirects_followed": 0,
+    "tls_verified": null
+  },
+  "score": {
+    "value": 5,
+    "max": 100,
+    "grade": "F",
+    "breakdown": {
+      "high": {
+        "types": 1,
+        "points": 20
+      },
+      "medium": {
+        "types": 6,
+        "points": 48
+      },
+      "low": {
+        "types": 9,
+        "points": 27
+      },
+      "info": {
+        "types": 3,
+        "points": 0
+      }
+    }
+  },
+  "counts": {
+    "high": 1,
+    "medium": 6,
+    "low": 9,
+    "info": 3
+  },
+  "findings": [
+    {
+      "check_id": "wordpress.config-backup",
+      "title": "wp-config backup is publicly accessible",
+      "severity": "high",
+      "description": "It contains the database name, user and password.",
+      "recommendation": "Delete it, then change the database password and the secret keys.",
+      "evidence": "GET /wp-config.php.bak returned HTTP 200 with matching content"
+    },
+    {
+      "check_id": "headers.clickjacking",
+      "title": "Page can be framed (clickjacking)",
+      "severity": "medium",
+      "description": "Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.",
+      "recommendation": "Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors 'self'.",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.csp-missing",
+      "title": "Missing Content-Security-Policy",
+      "severity": "medium",
+      "description": "Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.",
+      "recommendation": "Start with: Content-Security-Policy: default-src 'self'; frame-ancestors 'self'",
+      "evidence": ""
+    },
+    {
+      "check_id": "wordpress.debug-log",
+      "title": "WordPress debug.log is publicly accessible",
+      "severity": "medium",
+      "description": "Logs reveal file paths, plugin errors and sometimes private data.",
+      "recommendation": "Delete it and set WP_DEBUG_LOG to a path outside the web root.",
+      "evidence": "GET /wp-content/debug.log returned HTTP 200 with log lines"
+    },
+    {
+      "check_id": "wordpress.directory-listing",
+      "title": "Directory listing enabled on /wp-content/uploads/",
+      "severity": "medium",
+      "description": "Visitors can browse and download everything in the folder.",
+      "recommendation": "Disable directory listing (Options -Indexes) or add an empty index.php.",
+      "evidence": "GET /wp-content/uploads/ shows a file listing"
+    },
+    {
+      "check_id": "wordpress.outdated",
+      "title": "WordPress is older than the current release series",
+      "severity": "medium",
+      "description": "Only the newest WordPress series is officially supported, so older sites may miss security fixes.",
+      "recommendation": "Update WordPress core (back up first).",
+      "evidence": "detected 6.4.2; current series 7.0 (reference checked 2026-10-21)"
+    },
+    {
+      "check_id": "wordpress.user-enum",
+      "title": "WordPress user list is public",
+      "severity": "medium",
+      "description": "Login names are half of a login; attackers use the list for password guessing.",
+      "recommendation": "Restrict the REST users endpoint (a security plugin or a small filter does this).",
+      "evidence": "GET /wp-json/wp/v2/users lists 2 user(s)"
+    },
+    {
+      "check_id": "cookies.no-httponly",
+      "title": "Cookie 'wordpress_test_cookie' missing HttpOnly flag",
+      "severity": "low",
+      "description": "JavaScript on the page can read this cookie, so an XSS bug can steal it.",
+      "recommendation": "Add the HttpOnly attribute to the Set-Cookie header.",
+      "evidence": "cookie 'wordpress_test_cookie': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "cookies.no-samesite",
+      "title": "Cookie 'wordpress_test_cookie' missing SameSite",
+      "severity": "low",
+      "description": "Without SameSite, other sites may trigger requests that carry this cookie (CSRF).",
+      "recommendation": "Add SameSite=Lax (or Strict).",
+      "evidence": "cookie 'wordpress_test_cookie': Secure=no, HttpOnly=no, SameSite=missing"
+    },
+    {
+      "check_id": "headers.nosniff",
+      "title": "Missing X-Content-Type-Options: nosniff",
+      "severity": "low",
+      "description": "Browsers may guess file types and run an upload as a script.",
+      "recommendation": "Add: X-Content-Type-Options: nosniff",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.referrer-policy",
+      "title": "Missing Referrer-Policy",
+      "severity": "low",
+      "description": "Full page URLs (which can contain tokens or IDs) may be sent to other sites.",
+      "recommendation": "Add: Referrer-Policy: strict-origin-when-cross-origin",
+      "evidence": ""
+    },
+    {
+      "check_id": "headers.server-version",
+      "title": "Server header reveals a software version",
+      "severity": "low",
+      "description": "Attackers can look up known vulnerabilities for the exact version.",
+      "recommendation": "Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).",
+      "evidence": "Server: Apache/2.4.41 (Ubuntu)"
+    },
+    {
+      "check_id": "wordpress.author-enum",
+      "title": "Author archive reveals login names",
+      "severity": "low",
+      "description": "Requesting /?author=1 redirects to a URL containing the user name.",
+      "recommendation": "Block ?author= requests or redirect them to the home page.",
+      "evidence": "GET /?author=1 redirects to an /author/<name>/ URL"
+    },
+    {
+      "check_id": "wordpress.readme",
+      "title": "WordPress readme.html is reachable",
+      "severity": "low",
+      "description": "It confirms the site runs WordPress and often shows the version.",
+      "recommendation": "Delete readme.html (it comes back after updates, so block it in the server config).",
+      "evidence": "GET /readme.html returned HTTP 200, version 6.4.2"
+    },
+    {
+      "check_id": "wordpress.version-exposed",
+      "title": "WordPress version is shown in the page source",
+      "severity": "low",
+      "description": "Attackers can match the exact version against known vulnerabilities.",
+      "recommendation": "Remove the generator tag: remove_action('wp_head', 'wp_generator');",
+      "evidence": "generator meta tag: WordPress 6.4.2"
+    },
+    {
+      "check_id": "wordpress.xmlrpc",
+      "title": "xmlrpc.php is enabled",
+      "severity": "low",
+      "description": "It lets attackers try many passwords in a single request.",
+      "recommendation": "Disable XML-RPC unless you need it (a plugin or one server rule does this).",
+      "evidence": "GET /xmlrpc.php answered HTTP 405"
+    },
+    {
+      "check_id": "headers.permissions-policy",
+      "title": "Missing Permissions-Policy",
+      "severity": "info",
+      "description": "Browser features like camera, microphone and geolocation are not explicitly limited.",
+      "recommendation": "Add: Permissions-Policy: camera=(), microphone=(), geolocation=()",
+      "evidence": ""
+    },
+    {
+      "check_id": "wordpress.detected",
+      "title": "WordPress detected",
+      "severity": "info",
+      "description": "Knowing the platform tells you which WordPress-specific checks apply.",
+      "recommendation": "Keep core, themes and plugins updated.",
+      "evidence": "version 6.4.2"
+    },
+    {
+      "check_id": "wordpress.plugins",
+      "title": "Plugins visible in the page source",
+      "severity": "info",
+      "description": "Each plugin is extra attack surface and needs its own updates. Versions were not checked.",
+      "recommendation": "Remove unused plugins and keep the rest updated.",
+      "evidence": "contact-form-7, elementor, woocommerce"
+    }
+  ]
+}

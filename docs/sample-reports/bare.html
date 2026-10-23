@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; style-src &#x27;unsafe-inline&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security report: http://127.0.0.1:8101</title>
+<style>
+:root{color-scheme:light dark;--bg:#f4f6f9;--card:#fff;--text:#1b2230;--muted:#586174;--line:#dfe3ea;
+--high:#b42318;--medium:#b54708;--low:#7a5f00;--info:#175cd3;
+--gA:#067647;--gB:#1a7f4b;--gC:#7a5f00;--gD:#b54708;--gF:#b42318}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1218;--card:#161b24;--text:#e7eaf1;--muted:#9aa3b4;--line:#283042;
+--high:#ff8f85;--medium:#ffb36b;--low:#e8c963;--info:#82b3ff;
+--gA:#4ade80;--gB:#6ee7a0;--gC:#e8c963;--gD:#ffb36b;--gF:#ff8f85}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:32px 20px 48px}
+.eyebrow{margin:0;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+h1{margin:4px 0 6px;font-size:26px;overflow-wrap:anywhere}
+.meta{margin:0;color:var(--muted);font-size:14px}
+.summary{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:28px 0;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.grade{width:108px;height:108px;border-radius:50%;border:5px solid var(--gc);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gc)}
+.grade .letter{font-size:44px;font-weight:700;line-height:1}
+.grade .score{font-size:14px;color:var(--text)}
+.gA{--gc:var(--gA)}.gB{--gc:var(--gB)}.gC{--gc:var(--gC)}.gD{--gc:var(--gD)}.gF{--gc:var(--gF)}
+.counts{display:flex;gap:12px;flex-wrap:wrap;list-style:none;margin:0;padding:0}
+.counts li{min-width:84px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;text-align:center}
+.counts b{display:block;font-size:24px;line-height:1.1}
+.counts span{font-size:13px;color:var(--muted)}
+.counts .high b{color:var(--high)}.counts .medium b{color:var(--medium)}.counts .low b{color:var(--low)}.counts .info b{color:var(--info)}
+h2{margin:32px 0 12px;font-size:18px}
+.finding{margin:0 0 12px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--sev);border-radius:10px}
+.finding.high{--sev:var(--high)}.finding.medium{--sev:var(--medium)}.finding.low{--sev:var(--low)}.finding.info{--sev:var(--info)}
+.finding h3{margin:0 0 2px;font-size:16px}
+.badge{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--sev);margin-right:8px}
+.cid{margin:0 0 8px;color:var(--muted);font:13px ui-monospace,Consolas,monospace}
+.finding p{margin:6px 0}
+.found code{font:13px ui-monospace,Consolas,monospace;background:var(--bg);padding:2px 6px;border-radius:5px;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%;max-width:420px;font-size:14px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:left}
+.small{color:var(--muted);font-size:13px}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line)}
+@media print{body{background:#fff}.finding,.summary{break-inside:avoid}}
+</style></head>
+<body><div class="wrap">
+<header>
+<p class="eyebrow">Web Security Scanner report</p>
+<h1>http://127.0.0.1:8101</h1>
+<p class="meta">Scanned 2026-10-23T06:36:51Z &middot; HTTP 200 &middot; 33 requests &middot; TLS certificate: not applicable (plain HTTP)</p>
+</header>
+<section class="summary" aria-label="Summary">
+<div class="grade gF"><span class="letter">F</span><span class="score">53/100</span></div>
+<ul class="counts"><li class="high"><b>0</b><span>high</span></li><li class="medium"><b>5</b><span>medium</span></li><li class="low"><b>7</b><span>low</span></li><li class="info"><b>1</b><span>info</span></li></ul>
+</section>
+<main><h2>Medium (5)</h2><article class="finding medium"><h3><span class="badge">MEDIUM</span>Cookie &#x27;PHPSESSID&#x27; missing HttpOnly flag</h3><p class="cid">cookies.no-httponly</p><p>JavaScript on the page can read this cookie, so an XSS bug can steal it.</p><p><strong>Fix:</strong> Add the HttpOnly attribute to the Set-Cookie header.</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;PHPSESSID&#x27;: Secure=no, HttpOnly=no, SameSite=missing</code></p></article><article class="finding medium"><h3><span class="badge">MEDIUM</span>Cookie &#x27;auth_token&#x27; missing HttpOnly flag</h3><p class="cid">cookies.no-httponly</p><p>JavaScript on the page can read this cookie, so an XSS bug can steal it.</p><p><strong>Fix:</strong> Add the HttpOnly attribute to the Set-Cookie header.</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;auth_token&#x27;: Secure=no, HttpOnly=no, SameSite=None</code></p></article><article class="finding medium"><h3><span class="badge">MEDIUM</span>Cookie &#x27;auth_token&#x27; uses SameSite=None without Secure</h3><p class="cid">cookies.samesite-none-insecure</p><p>Browsers reject SameSite=None cookies that are not Secure, and it widens cross-site exposure.</p><p><strong>Fix:</strong> Add Secure, or use SameSite=Lax.</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;auth_token&#x27;: Secure=no, HttpOnly=no, SameSite=None</code></p></article><article class="finding medium"><h3><span class="badge">MEDIUM</span>Page can be framed (clickjacking)</h3><p class="cid">headers.clickjacking</p><p>Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.</p><p><strong>Fix:</strong> Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors &#x27;self&#x27;.</p></article><article class="finding medium"><h3><span class="badge">MEDIUM</span>Missing Content-Security-Policy</h3><p class="cid">headers.csp-missing</p><p>Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.</p><p><strong>Fix:</strong> Start with: Content-Security-Policy: default-src &#x27;self&#x27;; frame-ancestors &#x27;self&#x27;</p></article><h2>Low (7)</h2><article class="finding low"><h3><span class="badge">LOW</span>Cookie &#x27;theme&#x27; missing HttpOnly flag</h3><p class="cid">cookies.no-httponly</p><p>JavaScript on the page can read this cookie, so an XSS bug can steal it.</p><p><strong>Fix:</strong> Add the HttpOnly attribute to the Set-Cookie header.</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;theme&#x27;: Secure=no, HttpOnly=no, SameSite=missing</code></p></article><article class="finding low"><h3><span class="badge">LOW</span>Cookie &#x27;PHPSESSID&#x27; missing SameSite</h3><p class="cid">cookies.no-samesite</p><p>Without SameSite, other sites may trigger requests that carry this cookie (CSRF).</p><p><strong>Fix:</strong> Add SameSite=Lax (or Strict).</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;PHPSESSID&#x27;: Secure=no, HttpOnly=no, SameSite=missing</code></p></article><article class="finding low"><h3><span class="badge">LOW</span>Cookie &#x27;theme&#x27; missing SameSite</h3><p class="cid">cookies.no-samesite</p><p>Without SameSite, other sites may trigger requests that carry this cookie (CSRF).</p><p><strong>Fix:</strong> Add SameSite=Lax (or Strict).</p><p class="found"><strong>Found:</strong> <code>cookie &#x27;theme&#x27;: Secure=no, HttpOnly=no, SameSite=missing</code></p></article><article class="finding low"><h3><span class="badge">LOW</span>Missing X-Content-Type-Options: nosniff</h3><p class="cid">headers.nosniff</p><p>Browsers may guess file types and run an upload as a script.</p><p><strong>Fix:</strong> Add: X-Content-Type-Options: nosniff</p></article><article class="finding low"><h3><span class="badge">LOW</span>Missing Referrer-Policy</h3><p class="cid">headers.referrer-policy</p><p>Full page URLs (which can contain tokens or IDs) may be sent to other sites.</p><p><strong>Fix:</strong> Add: Referrer-Policy: strict-origin-when-cross-origin</p></article><article class="finding low"><h3><span class="badge">LOW</span>Server header reveals a software version</h3><p class="cid">headers.server-version</p><p>Attackers can look up known vulnerabilities for the exact version.</p><p><strong>Fix:</strong> Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).</p><p class="found"><strong>Found:</strong> <code>Server: Apache/2.4.41 (Ubuntu)</code></p></article><article class="finding low"><h3><span class="badge">LOW</span>x-powered-by header reveals the technology stack</h3><p class="cid">headers.x-powered-by</p><p>This tells attackers which framework and version to target.</p><p><strong>Fix:</strong> Remove the x-powered-by header (PHP: expose_php = Off).</p><p class="found"><strong>Found:</strong> <code>x-powered-by: PHP/7.4.3</code></p></article><h2>Info (1)</h2><article class="finding info"><h3><span class="badge">INFO</span>Missing Permissions-Policy</h3><p class="cid">headers.permissions-policy</p><p>Browser features like camera, microphone and geolocation are not explicitly limited.</p><p><strong>Fix:</strong> Add: Permissions-Policy: camera=(), microphone=(), geolocation=()</p></article></main>
+<footer>
+<h2>How the score was calculated</h2>
+<table><tr><th>Severity</th><th>Problem types</th><th>Points</th></tr><tr><td>High</td><td>0</td><td>-0</td></tr><tr><td>Medium</td><td>4</td><td>-32</td></tr><tr><td>Low</td><td>5</td><td>-15</td></tr><tr><td>Info</td><td>1</td><td>-0</td></tr></table>
+<p class="small">Start at 100, subtract 20 per high, 8 per medium and 3 per low problem type (each type counts once). Any high finding caps the grade at D.</p>
+<p class="small">Generated by web-security-scanner 1.0.0. Only scan sites you own or have written permission to test.</p>
+</footer>
+</div></body></html>

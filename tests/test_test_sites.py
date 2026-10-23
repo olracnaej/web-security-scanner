@@ -32,6 +32,7 @@ EXPECTED = {
     },
 }
 HIGH_COUNT = {"bare": 0, "leaky": 4, "wordpress": 1}
+EXPECTED_SCORE = {"bare": (53, "F"), "leaky": (0, "F"), "wordpress": (5, "F")}
 
 
 @pytest.fixture
@@ -59,6 +60,7 @@ def test_site_produces_exactly_the_documented_findings(running, name):
     assert {f.check_id for f in result.findings} == EXPECTED[name]
     highs = [f for f in result.findings if f.severity.label == "high"]
     assert len(highs) == HIGH_COUNT[name]
+    assert (result.score.value, result.score.grade) == EXPECTED_SCORE[name]
 
 
 @pytest.mark.parametrize("name", list(SITES))
