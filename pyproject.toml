@@ -16,3 +16,4 @@ packages = ["scanner", "scanner.checks"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]

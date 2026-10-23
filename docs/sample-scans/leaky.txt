@@ -1,0 +1,59 @@
+Target: http://127.0.0.1:8102  (HTTP 200)
+Requests sent: 25
+Findings: 4 high, 4 medium, 3 low, 1 info
+
+[HIGH] Backup archive is publicly accessible  (exposed.backup-zip)
+  Why:   Anyone can download the whole site, including configuration and data.
+  Fix:   Remove it from the web root and keep backups elsewhere.
+  Found: GET /backup.zip returned HTTP 200 with matching content
+
+[HIGH] .env file is publicly accessible  (exposed.env)
+  Why:   It usually holds database passwords and API keys.
+  Fix:   Remove the file from the web root and block dot-files and backups in the server config. Then rotate every secret that was in it.
+  Found: GET /.env returned HTTP 200 with matching content
+
+[HIGH] .git folder is publicly accessible  (exposed.git)
+  Why:   Anyone can download the site's source code and history, often including passwords.
+  Fix:   Block access to /.git (nginx: location ~ /\.git { deny all; }) or do not deploy it.
+  Found: GET /.git/HEAD returned HTTP 200 with matching content
+
+[HIGH] Database dump is publicly accessible  (exposed.sql-dump)
+  Why:   It contains the site's data, possibly including user accounts.
+  Fix:   Remove it from the web root and keep backups elsewhere.
+  Found: GET /backup.sql returned HTTP 200 with matching content
+
+[MEDIUM] Directory listing is enabled  (exposed.directory-listing)
+  Why:   Visitors can browse the folder and download files that were never linked.
+  Fix:   Disable it (Apache: Options -Indexes, nginx: autoindex off).
+  Found: http://127.0.0.1:8102
+
+[MEDIUM] phpinfo() page is publicly accessible  (exposed.phpinfo)
+  Why:   It shows the PHP version, modules, paths and server settings to attackers.
+  Fix:   Delete the file.
+  Found: GET /phpinfo.php returned HTTP 200 with matching content
+
+[MEDIUM] Page can be framed (clickjacking)  (headers.clickjacking)
+  Why:   Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.
+  Fix:   Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors 'self'.
+
+[MEDIUM] Missing Content-Security-Policy  (headers.csp-missing)
+  Why:   Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.
+  Fix:   Start with: Content-Security-Policy: default-src 'self'; frame-ancestors 'self'
+
+[LOW] Missing X-Content-Type-Options: nosniff  (headers.nosniff)
+  Why:   Browsers may guess file types and run an upload as a script.
+  Fix:   Add: X-Content-Type-Options: nosniff
+
+[LOW] Missing Referrer-Policy  (headers.referrer-policy)
+  Why:   Full page URLs (which can contain tokens or IDs) may be sent to other sites.
+  Fix:   Add: Referrer-Policy: strict-origin-when-cross-origin
+
+[LOW] Server header reveals a software version  (headers.server-version)
+  Why:   Attackers can look up known vulnerabilities for the exact version.
+  Fix:   Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).
+  Found: Server: nginx/1.14.0
+
+[INFO] Missing Permissions-Policy  (headers.permissions-policy)
+  Why:   Browser features like camera, microphone and geolocation are not explicitly limited.
+  Fix:   Add: Permissions-Policy: camera=(), microphone=(), geolocation=()
+

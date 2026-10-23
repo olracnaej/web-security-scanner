@@ -1,0 +1,64 @@
+Target: http://127.0.0.1:8101  (HTTP 200)
+Requests sent: 33
+Findings: 5 medium, 7 low, 1 info
+
+[MEDIUM] Cookie 'PHPSESSID' missing HttpOnly flag  (cookies.no-httponly)
+  Why:   JavaScript on the page can read this cookie, so an XSS bug can steal it.
+  Fix:   Add the HttpOnly attribute to the Set-Cookie header.
+  Found: cookie 'PHPSESSID': Secure=no, HttpOnly=no, SameSite=missing
+
+[MEDIUM] Cookie 'auth_token' missing HttpOnly flag  (cookies.no-httponly)
+  Why:   JavaScript on the page can read this cookie, so an XSS bug can steal it.
+  Fix:   Add the HttpOnly attribute to the Set-Cookie header.
+  Found: cookie 'auth_token': Secure=no, HttpOnly=no, SameSite=None
+
+[MEDIUM] Cookie 'auth_token' uses SameSite=None without Secure  (cookies.samesite-none-insecure)
+  Why:   Browsers reject SameSite=None cookies that are not Secure, and it widens cross-site exposure.
+  Fix:   Add Secure, or use SameSite=Lax.
+  Found: cookie 'auth_token': Secure=no, HttpOnly=no, SameSite=None
+
+[MEDIUM] Page can be framed (clickjacking)  (headers.clickjacking)
+  Why:   Another site can load this page in an invisible frame and trick visitors into clicking buttons on it.
+  Fix:   Add X-Frame-Options: DENY (or SAMEORIGIN), or CSP frame-ancestors 'self'.
+
+[MEDIUM] Missing Content-Security-Policy  (headers.csp-missing)
+  Why:   Without a CSP, any script injected into a page (XSS) runs with no browser-side limits.
+  Fix:   Start with: Content-Security-Policy: default-src 'self'; frame-ancestors 'self'
+
+[LOW] Cookie 'theme' missing HttpOnly flag  (cookies.no-httponly)
+  Why:   JavaScript on the page can read this cookie, so an XSS bug can steal it.
+  Fix:   Add the HttpOnly attribute to the Set-Cookie header.
+  Found: cookie 'theme': Secure=no, HttpOnly=no, SameSite=missing
+
+[LOW] Cookie 'PHPSESSID' missing SameSite  (cookies.no-samesite)
+  Why:   Without SameSite, other sites may trigger requests that carry this cookie (CSRF).
+  Fix:   Add SameSite=Lax (or Strict).
+  Found: cookie 'PHPSESSID': Secure=no, HttpOnly=no, SameSite=missing
+
+[LOW] Cookie 'theme' missing SameSite  (cookies.no-samesite)
+  Why:   Without SameSite, other sites may trigger requests that carry this cookie (CSRF).
+  Fix:   Add SameSite=Lax (or Strict).
+  Found: cookie 'theme': Secure=no, HttpOnly=no, SameSite=missing
+
+[LOW] Missing X-Content-Type-Options: nosniff  (headers.nosniff)
+  Why:   Browsers may guess file types and run an upload as a script.
+  Fix:   Add: X-Content-Type-Options: nosniff
+
+[LOW] Missing Referrer-Policy  (headers.referrer-policy)
+  Why:   Full page URLs (which can contain tokens or IDs) may be sent to other sites.
+  Fix:   Add: Referrer-Policy: strict-origin-when-cross-origin
+
+[LOW] Server header reveals a software version  (headers.server-version)
+  Why:   Attackers can look up known vulnerabilities for the exact version.
+  Fix:   Hide the version (Apache: ServerTokens Prod, nginx: server_tokens off).
+  Found: Server: Apache/2.4.41 (Ubuntu)
+
+[LOW] x-powered-by header reveals the technology stack  (headers.x-powered-by)
+  Why:   This tells attackers which framework and version to target.
+  Fix:   Remove the x-powered-by header (PHP: expose_php = Off).
+  Found: x-powered-by: PHP/7.4.3
+
+[INFO] Missing Permissions-Policy  (headers.permissions-policy)
+  Why:   Browser features like camera, microphone and geolocation are not explicitly limited.
+  Fix:   Add: Permissions-Policy: camera=(), microphone=(), geolocation=()
+

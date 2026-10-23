@@ -8,7 +8,7 @@ Built step by step as a portfolio project. **Only scan sites you own or have wri
 - [x] Step 1: project skeleton, CLI, safety guard
 - [x] Step 2: security headers and cookie checks
 - [x] Step 3: TLS, exposed files, WordPress checks
-- [ ] Step 4: three deliberately misconfigured local test sites
+- [x] Step 4: three deliberately misconfigured local test sites
 - [ ] Step 5: scoring and HTML/JSON report
 
 ## Safety guard
@@ -56,6 +56,23 @@ Try it on your own machine with a plain local server (it has no security headers
 ```bash
 python -m http.server 8001 --bind 127.0.0.1
 ```
+
+## Practice targets
+
+Three fake sites with deliberate mistakes live in `test_sites/`. They only listen on `127.0.0.1`, and every password in them is fake.
+
+```bash
+python -m test_sites all          # or: bare | leaky | wordpress
+python -m scanner scan http://127.0.0.1:8101
+```
+
+| Site | URL | What it shows | Result | Full output |
+|------|-----|---------------|--------|-------------|
+| bare | http://127.0.0.1:8101 | No security headers, version leaks, cookies without flags | 5 medium, 7 low, 1 info | [bare.txt](docs/sample-scans/bare.txt) |
+| leaky | http://127.0.0.1:8102 | Exposed `.git`, `.env`, SQL dump, backup zip, `phpinfo`, directory listing | 4 high, 4 medium, 3 low, 1 info | [leaky.txt](docs/sample-scans/leaky.txt) |
+| wordpress | http://127.0.0.1:8103 | Old WordPress, public user list, `xmlrpc.php`, leaked `wp-config` backup | 1 high, 6 medium, 9 low, 3 info | [wordpress.txt](docs/sample-scans/wordpress.txt) |
+
+The tests check that each site produces exactly its documented findings, so a change to a check that alters the results is caught.
 
 ## Tests
 
