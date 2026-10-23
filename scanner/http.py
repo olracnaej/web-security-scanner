@@ -93,7 +93,7 @@ def _path_of(url: str) -> str:
     return (parts.path or "/") + (f"?{parts.query}" if parts.query else "")
 
 
-def _do_request(target, path, timeout, verify):
+def _do_request(target, path, timeout, verify, max_body=MAX_BODY):
     conn = _PinnedConnection(target, timeout, verify)
     try:
         conn.request(
@@ -107,13 +107,13 @@ def _do_request(target, path, timeout, verify):
             },
         )
         resp = conn.getresponse()
-        body = resp.read(MAX_BODY)
+        body = resp.read(max_body)
         return resp.status, tuple(resp.getheaders()), body
     finally:
         conn.close()
 
 
-def _request(target, path, timeout):
+def _request(target, path, timeout, max_body=MAX_BODY):
     """Return (status, headers, body, tls_verified).
 
     If the certificate does not verify (common on local test sites), fetch
@@ -122,10 +122,10 @@ def _request(target, path, timeout):
     """
     if target.scheme == "https":
         try:
-            return (*_do_request(target, path, timeout, True), True)
+            return (*_do_request(target, path, timeout, True, max_body), True)
         except ssl.SSLCertVerificationError:
-            return (*_do_request(target, path, timeout, False), False)
-    return (*_do_request(target, path, timeout, False), None)
+            return (*_do_request(target, path, timeout, False, max_body), False)
+    return (*_do_request(target, path, timeout, False, max_body), None)
 
 
 def fetch(target: AuthorizedTarget, allow_hosts=(), timeout: float = TIMEOUT) -> Response:
@@ -149,3 +149,15 @@ def fetch(target: AuthorizedTarget, allow_hosts=(), timeout: float = TIMEOUT) ->
             return Response(current, path, status, headers, body, tls_ok, tuple(redirects))
     except (OSError, http.client.HTTPException) as exc:
         raise FetchError(f"could not fetch {current.url}: {exc}") from exc
+
+
+def fetch_once(
+    target: AuthorizedTarget, timeout: float = TIMEOUT, max_body: int = MAX_BODY
+) -> Response:
+    """One GET, redirects NOT followed. Used for probing extra paths."""
+    path = _path_of(target.url)
+    try:
+        status, headers, body, tls_ok = _request(target, path, timeout, max_body)
+    except (OSError, http.client.HTTPException) as exc:
+        raise FetchError(f"could not fetch {target.url}: {exc}") from exc
+    return Response(target, path, status, headers, body, tls_ok)

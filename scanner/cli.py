@@ -35,6 +35,10 @@ def build_parser() -> argparse.ArgumentParser:
         "Not needed for localhost.",
     )
     scan.add_argument(
+        "--delay", type=float, metavar="SECONDS",
+        help="pause between extra requests (default 0.1) to be gentle with small sites",
+    )
+    scan.add_argument(
         "--fail-on", choices=["low", "medium", "high"],
         help="exit with code 1 if any finding is at least this severe (for CI)",
     )
@@ -47,12 +51,13 @@ def print_result(result: ScanResult) -> None:
     if resp.redirects:
         print(f"Redirects followed: {len(resp.redirects)}")
     if resp.tls_verified is False:
-        print("Note: the TLS certificate did not verify (details in the TLS check, next step).")
+        print("Note: the TLS certificate did not verify (see the TLS findings).")
 
     counts = Counter(f.severity for f in result.findings)
     summary = ", ".join(
         f"{counts[s]} {s.label}" for s in sorted(Severity, reverse=True) if counts[s]
     )
+    print(f"Requests sent: {result.requests_made}")
     print(f"Findings: {summary or 'none'}\n")
 
     for f in result.findings:
@@ -68,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
     try:
-        result = run_scan(args.url, args.allow_host)
+        result = run_scan(args.url, args.allow_host, args.delay)
     except RefusedTarget as exc:
         print(f"Refused: {exc}", file=sys.stderr)
         return EXIT_REFUSED
