@@ -4,6 +4,14 @@ A small Python tool that checks a website for common security hygiene problems a
 
 **Only scan sites you own or have written permission to test.** The tool enforces this: it scans `localhost` by default and refuses any other host unless you name it explicitly.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/report-leaky-dark.png">
+    <img src="docs/images/report-leaky-light.png" alt="HTML report for the leaky practice site: grade F, 0 out of 100, four high findings with a fix for each" width="720">
+  </picture>
+</p>
+<p align="center"><sub>The HTML report for one of the practice sites. Open <a href="docs/sample-reports/leaky.html">the report file</a> in a browser to see the full page.</sub></p>
+
 ## What it checks
 
 | Area | Examples |
@@ -103,5 +111,5 @@ scanner/            the tool (safety guard, HTTP client, checks, scoring, report
 scanner/checks/     headers, cookies, tls, exposed_files, wordpress
 test_sites/         the three practice sites
 tests/              automated tests
-docs/               sample console output and sample reports
+docs/               sample console output, sample reports and screenshots
 ```
