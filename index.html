@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Web Security Scanner</title>
+
+</head>
+<body>
+
+
+<div style="min-height: 100vh; background: #f6f8fa; color: #12202b; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 1.0625rem; line-height: 1.6" data-canvas-width="1280" data-canvas-height="3600" data-document-role="page" data-label="Project page">
+
+<header style="max-width: 1080px; margin: 0 auto; padding: 4.5rem 1.5rem 3rem">
+<p style="margin: 0 0 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.875rem; color: #0a5c66; letter-spacing: 0.04em">PYTHON · CYBERSECURITY PROJECT</p>
+<h1 style="margin: 0 0 1.25rem; font-size: clamp(2.25rem, 6vw, 3.75rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Web Security Scanner</h1>
+<p style="margin: 0 0 2rem; max-width: 40rem; font-size: 1.25rem; color: #3a4857">A command-line tool that checks a small business website for common security problems, gives it a score from 0 to 100, and explains how to fix each issue.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 0.875rem">
+<a href="https://github.com/olracnaej/web-security-scanner" style="display: inline-block; padding: 0.875rem 1.5rem; background: #0a5c66; color: #ffffff; text-decoration: none; font-weight: 500; border-radius: 8px; min-height: 44px">View the code on GitHub</a>
+<a href="#score" style="display: inline-block; padding: 0.875rem 1.5rem; border: 2px solid #0a5c66; color: #0a5c66; text-decoration: none; font-weight: 500; border-radius: 8px; min-height: 44px">See how it scores</a>
+</div>
+</header>
+
+<section aria-label="Project facts" style="max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 3rem">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem">
+<div style="background: #ffffff; border: 1px solid #d8dee4; border-radius: 12px; padding: 1.25rem 1.5rem">
+<p style="margin: 0; font-size: 2.25rem; font-weight: 600; line-height: 1.1">5</p>
+<p style="margin: 0.25rem 0 0; color: #52606d">areas checked</p>
+</div>
+<div style="background: #ffffff; border: 1px solid #d8dee4; border-radius: 12px; padding: 1.25rem 1.5rem">
+<p style="margin: 0; font-size: 2.25rem; font-weight: 600; line-height: 1.1">145</p>
+<p style="margin: 0.25rem 0 0; color: #52606d">automated tests</p>
+</div>
+<div style="background: #ffffff; border: 1px solid #d8dee4; border-radius: 12px; padding: 1.25rem 1.5rem">
+<p style="margin: 0; font-size: 2.25rem; font-weight: 600; line-height: 1.1">0</p>
+<p style="margin: 0.25rem 0 0; color: #52606d">runtime dependencies</p>
+</div>
+<div style="background: #ffffff; border: 1px solid #d8dee4; border-radius: 12px; padding: 1.25rem 1.5rem">
+<p style="margin: 0; font-size: 2.25rem; font-weight: 600; line-height: 1.1">3</p>
+<p style="margin: 0.25rem 0 0; color: #52606d">practice sites</p>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: center">
+<div>
+<h2 style="margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600">What a scan produces</h2>
+<p style="margin: 0 0 1rem; color: #3a4857">Every scan ends with a grade, a count of problems by severity, and one card per finding. Each card says why it matters and what to change.</p>
+<ul style="margin: 0; padding-left: 1.25rem; color: #3a4857">
+<li style="margin-bottom: 0.5rem">A score and a letter grade from A to F</li>
+<li style="margin-bottom: 0.5rem">An HTML report you can open in a browser, and a JSON report for scripts</li>
+<li style="margin-bottom: 0.5rem">Plain-language fixes next to every finding</li>
+<li>Cookie values and file contents are never stored or shown</li>
+</ul>
+</div>
+<div>
+<img src="report-leaky.png" alt="HTML report for a practice site: grade F, 0 out of 100, four high findings, each with a fix" style="display: block; width: 100%; max-width: 520px; margin: 0 auto; border: 1px solid #d8dee4; border-radius: 12px">
+<p style="margin: 0.75rem auto 0; max-width: 520px; font-size: 0.875rem; color: #52606d">The report for a practice site with deliberate mistakes.</p>
+</div>
+</div>
+</section>
+
+<section style="background: #ffffff; border-top: 1px solid #d8dee4; border-bottom: 1px solid #d8dee4">
+<div style="max-width: 1080px; margin: 0 auto; padding: 4rem 1.5rem">
+<h2 style="margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600">What it checks</h2>
+<p style="margin: 0 0 2rem; color: #3a4857">Five areas, each with its own tests.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem">
+<div style="padding: 1.5rem; background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 12px">
+<h3 style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600">Security headers</h3>
+<p style="margin: 0; color: #3a4857">HSTS, Content-Security-Policy, clickjacking protection, nosniff, Referrer-Policy and software versions leaked in headers.</p>
+</div>
+<div style="padding: 1.5rem; background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 12px">
+<h3 style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600">Cookies</h3>
+<p style="margin: 0; color: #3a4857">Secure, HttpOnly and SameSite flags on every cookie. Session-like cookies are rated more strictly.</p>
+</div>
+<div style="padding: 1.5rem; background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 12px">
+<h3 style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600">TLS</h3>
+<p style="margin: 0; color: #3a4857">Expired, self-signed or mismatched certificates, certificates about to expire, obsolete TLS 1.0 and 1.1, and a missing redirect from HTTP to HTTPS.</p>
+</div>
+<div style="padding: 1.5rem; background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 12px">
+<h3 style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600">Exposed files</h3>
+<p style="margin: 0; color: #3a4857">Public .git folders, .env files, backups, SQL dumps, phpinfo pages and directory listings, confirmed by their content and not only by a 200 response.</p>
+</div>
+<div style="padding: 1.5rem; background: #f6f8fa; border: 1px solid #d8dee4; border-radius: 12px">
+<h3 style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 600">WordPress</h3>
+<p style="margin: 0; color: #3a4857">Outdated core, public user list, xmlrpc.php, leaked wp-config backups, debug logs and visible plugins. Runs only on WordPress sites.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1080px; margin: 0 auto; padding: 4rem 1.5rem">
+<h2 style="margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600">Built to be safe to run</h2>
+<p style="margin: 0 0 2rem; max-width: 40rem; color: #3a4857">A security tool should not become a risk itself, so the guard runs before any request is sent.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem">
+<div>
+<h3 style="margin: 0 0 0.5rem; font-size: 1.0625rem; font-weight: 600">Permission first</h3>
+<p style="margin: 0; color: #3a4857">It scans localhost by default. Any other site must be named explicitly with <code style="font-family: 'IBM Plex Mono', monospace; font-size: 0.9em">--allow-host</code>.</p>
+</div>
+<div>
+<h3 style="margin: 0 0 0.5rem; font-size: 1.0625rem; font-weight: 600">No dangerous targets</h3>
+<p style="margin: 0; color: #3a4857">Cloud metadata addresses are always refused, even if allowed, and redirects to other hosts are never followed.</p>
+</div>
+<div>
+<h3 style="margin: 0 0 0.5rem; font-size: 1.0625rem; font-weight: 600">Gentle</h3>
+<p style="margin: 0; color: #3a4857">About 30 to 50 requests per scan, with a pause between them and a hard cap of 80.</p>
+</div>
+<div>
+<h3 style="margin: 0 0 0.5rem; font-size: 1.0625rem; font-weight: 600">Safe reports</h3>
+<p style="margin: 0; color: #3a4857">Nothing a site controls reaches the HTML report unescaped, and the report carries its own strict Content-Security-Policy.</p>
+</div>
+</div>
+</section>
+
+<section id="score" style="background: #ffffff; border-top: 1px solid #d8dee4; border-bottom: 1px solid #d8dee4">
+<div style="max-width: 1080px; margin: 0 auto; padding: 4rem 1.5rem">
+<h2 style="margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600">How the score works</h2>
+<p style="margin: 0 0 2rem; max-width: 42rem; color: #3a4857">The rules are simple on purpose, so anyone can see why a site got a C.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem">
+<div>
+<p style="margin: 0 0 0.75rem"><strong>Start at 100, then subtract:</strong></p>
+<ul style="margin: 0; padding-left: 1.25rem; color: #3a4857">
+<li style="margin-bottom: 0.5rem">20 for each high problem</li>
+<li style="margin-bottom: 0.5rem">8 for each medium problem</li>
+<li style="margin-bottom: 0.5rem">3 for each low problem</li>
+<li>0 for info</li>
+</ul>
+<p style="margin: 1rem 0 0; color: #3a4857">Each type of problem counts once, however many places it appears. Any high finding caps the grade at D.</p>
+</div>
+<div>
+<p style="margin: 0 0 0.75rem"><strong>Grades:</strong></p>
+<table style="border-collapse: collapse; width: 100%; max-width: 320px">
+<tr><th scope="col" style="padding: 0.5rem 0.75rem; text-align: left; border-bottom: 2px solid #d8dee4">Grade</th><th scope="col" style="padding: 0.5rem 0.75rem; text-align: left; border-bottom: 2px solid #d8dee4">Score</th></tr>
+<tr><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">A</td><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">90 and up</td></tr>
+<tr><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">B</td><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">80 to 89</td></tr>
+<tr><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">C</td><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">70 to 79</td></tr>
+<tr><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">D</td><td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid #d8dee4">60 to 69</td></tr>
+<tr><td style="padding: 0.5rem 0.75rem">F</td><td style="padding: 0.5rem 0.75rem">below 60</td></tr>
+</table>
+</div>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1080px; margin: 0 auto; padding: 4rem 1.5rem">
+<h2 style="margin: 0 0 0.5rem; font-size: 1.75rem; line-height: 1.2; font-weight: 600">Practice sites</h2>
+<p style="margin: 0 0 2rem; max-width: 42rem; color: #3a4857">Three fake sites with deliberate mistakes ship with the project. The tests check that each one produces exactly its documented findings.</p>
+<div style="overflow-x: auto">
+<table style="border-collapse: collapse; width: 100%; min-width: 640px; background: #ffffff; border: 1px solid #d8dee4">
+<tr>
+<th scope="col" style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid #d8dee4">Site</th>
+<th scope="col" style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid #d8dee4">What it shows</th>
+<th scope="col" style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid #d8dee4">Findings</th>
+<th scope="col" style="padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid #d8dee4">Score</th>
+</tr>
+<tr>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4; font-family: 'IBM Plex Mono', monospace">bare</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4">No security headers, version leaks, cookies without flags</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4">5 medium, 7 low, 1 info</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4; color: #b42318; font-weight: 600">53, grade F</td>
+</tr>
+<tr>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4; font-family: 'IBM Plex Mono', monospace">leaky</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4">Exposed .git, .env, SQL dump, backup zip, phpinfo and a directory listing</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4">4 high, 4 medium, 3 low, 1 info</td>
+<td style="padding: 0.75rem 1rem; border-bottom: 1px solid #d8dee4; color: #b42318; font-weight: 600">0, grade F</td>
+</tr>
+<tr>
+<td style="padding: 0.75rem 1rem; font-family: 'IBM Plex Mono', monospace">wordpress</td>
+<td style="padding: 0.75rem 1rem">Old WordPress with public users, xmlrpc and a leaked wp-config backup</td>
+<td style="padding: 0.75rem 1rem">1 high, 6 medium, 9 low, 3 info</td>
+<td style="padding: 0.75rem 1rem; color: #b42318; font-weight: 600">5, grade F</td>
+</tr>
+</table>
+</div>
+<p style="margin: 1rem 0 0; font-size: 0.9375rem; color: #52606d">All three sites listen on 127.0.0.1 only, and every password in them is fake.</p>
+</section>
+
+<footer style="background: #12202b; color: #e6ebf0">
+<div style="max-width: 1080px; margin: 0 auto; padding: 3rem 1.5rem">
+<p style="margin: 0 0 0.5rem; font-size: 1.125rem; font-weight: 500">Built by Jean Carlo Andrade Rojas</p>
+<p style="margin: 0 0 1.25rem; color: #b8c4d0">Computer Systems Engineering student, Costa Rica</p>
+<p style="margin: 0 0 1.5rem"><a href="https://github.com/olracnaej/web-security-scanner" style="color: #ffffff">github.com/olracnaej/web-security-scanner</a></p>
+<p style="margin: 0; font-size: 0.9375rem; color: #b8c4d0">Only scan sites you own or have written permission to test.</p>
+</div>
+</footer>
+
+</div>
+
+
+
+
+</body></html>
