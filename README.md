@@ -1,5 +1,5 @@
 # Web Security Scanner
-[demo link](https://claude.ai/artifact/UzVSQZQU84dyuuYD8P5kL6#play-15dd8cd198dd)
+[click here if you prefer a HTML demo instead](https://olracnaej.github.io/web-security-scanner/)
 
 A small Python tool that checks a website for common security hygiene problems and turns the result into a score, a JSON report and a readable HTML report. Built for small business sites, with no third-party dependencies.
 
